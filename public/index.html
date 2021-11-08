@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Survey</title>
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+
+    <!-- loading stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="./stylesheets/bulma_radio.min.css" />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Cabin"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="stylesheets/app.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/main.css" />
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <style></style>
+
+    <!-- loading javascripts -->
+    <script src="./javascripts/main.js?v6" async defer></script>
+    <!-- Loading charts -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Dark.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="./javascripts/chart_pie.js" async defer></script>
+    <script src="./javascripts/chart_bar.js" async defer></script>
+    <script src="./javascripts/chart_treemap.js" async defer></script>
+  </head>
+
+  <body>
+    <div id="pageloader" class="pageloader is-left-to-right is-theme"></div>
+    <div id="infraloader" class="infraloader is-active"></div>
+    <div class="dark-wrapper">
+      <!-- Landing page Hero -->
+      <section class="hero is-fullheight is-transparent">
+        <!-- Navbar -->
+        <div class="hero-head">
+          <!-- Navbar that comes in on scroll -->
+          <nav
+            x-data="initNavbar()"
+            x-on:scroll.window="scroll()"
+            id="navbar-clone"
+            class="navbar is-fixed is-dark"
+            :class="{
+                        'is-active': scrolled,
+                        '': !scrolled
+                    }"
+          >
+            <div class="container">
+              <!-- Brand -->
+              <div class="navbar-brand">
+                <a href="index.html" class="navbar-item">
+                  <img class="rotating" src="images/logo.svg" alt="" />
+                  <span class="brand-name">NTT Cloud</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Static navbar -->
+          <nav x-data="initNavbar()" class="navbar is-light">
+            <div class="container">
+              <!-- Brand -->
+              <div class="navbar-brand">
+                <a href="index.html" class="navbar-item">
+                  <img class="rotating" src="images/logo_white.svg" alt="" />
+                  <span class="brand-name">NTT Cloud</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+          <!-- /Static navbar -->
+        </div>
+        <!-- /Navbar -->
+
+        <!-- Animated particles -->
+        <div
+          x-data="initHero()"
+          x-init="initParticles()"
+          id="particles-js"
+        ></div>
+
+        <!-- Hero Image and Title -->
+        <div class="hero-body">
+          <div class="container">
+            <div class="columns is-vcentered is-centered">
+              <!-- Landing page Title -->
+              <div class="column is-5 is-6-tablet is-5-desktop landing-caption">
+                <h2
+                  class="title is-1 is-light is-semibold is-spaced main-title"
+                >
+                  Customer Satisfaction Survey
+                </h2>
+                <div class="divider is-long"></div>
+
+                <!-- The Survey Form -->
+                <form
+                  class=""
+                  action="/surveys"
+                  method="POST"
+                  onsubmit="postData(this); return false;"
+                >
+                  <div class="field pb-1">
+                    <label class="label has-text-light">Name</label>
+                    <div class="control">
+                      <input
+                        class="input is-primary"
+                        type="text"
+                        name="name"
+                        placeholder="name maximum 20 characters"
+                        value=""
+                      />
+                    </div>
+                    <div id="name_info"></div>
+                  </div>
+
+                  <div class="field pb-1">
+                    <div class="control">
+                      <label class="label has-text-light"
+                        >Are you satisfied with our service?<span
+                          style="color: #ff0000"
+                        >
+                          *</span
+                        ></label
+                      >
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="satisfaction"
+                          value="Excellent"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">Excellent</span>
+                      </label>
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="satisfaction"
+                          value="Good"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">Good</span>
+                      </label>
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="satisfaction"
+                          value="Average"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">Average</span>
+                      </label>
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="satisfaction"
+                          value="Poor"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">Poor</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="field pb-1">
+                    <div class="control">
+                      <label class="label has-text-light"
+                        >How long have you been with us?<span
+                          style="color: #ff0000"
+                        >
+                          *</span
+                        ></label
+                      >
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="time"
+                          value="Less than 1 month"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">Less than 1 month</span>
+                      </label>
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="time"
+                          value="Less than 1 year"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">Less than 1 year</span>
+                      </label>
+                      <label class="b-radio radio p-1">
+                        <input
+                          type="radio"
+                          name="time"
+                          value="1+ years"
+                          required
+                        />
+                        <span class="check"></span>
+                        <span class="control-label">1+ years</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="field pb-1">
+                    <label class="label has-text-light"
+                      >What is your role?<span style="color: #ff0000">
+                        *</span
+                      ></label
+                    >
+                    <div class="control">
+                      <div class="select is-primary">
+                        <select
+                          onchange="roleSelected(this.value)"
+                          name="role"
+                          id="selectRole"
+                          required
+                        >
+                          <option value="">Select your role</option>
+                          <option value="teacher">&#xf19d; Teacher</option>
+                          <option value="marketer">&#xf201; Marketer</option>
+                          <option value="designer">&#xf044; Designer</option>
+                          <option value="student">&#xf02d; Student</option>
+                          <option value="other">&#xf007; Other</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field pb-1">
+                    <label class="label has-text-light"
+                      >What can we improve?</label
+                    >
+                    <div class="control">
+                      <textarea
+                        class="textarea is-primary"
+                        placeholder="We care about your feedback..."
+                        rows="3"
+                        name="message"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control buttons">
+                      <button
+                        type="submit"
+                        class="
+                          button
+                          is-link
+                          k-button k-primary
+                          raised
+                          has-gradient
+                          is-fat is-bold
+                        "
+                        id="submitButton"
+                      >
+                        <span class="text is-size-6">Submit</span>
+                        <span class="front-gradient"></span>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="is-hidden-touch m-6 p-6"></div>
+              <!-- Side image -->
+              <div class="column is-hidden-mobile is-4 ml-5 p-3">
+                <figure class="image">
+                  <img src="images/server_cover.svg" alt="" />
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /Landing page Hero -->
+
+      <!-- Data Visualization section -->
+      <section id="big-gradient" class="section is-transparent is-hidden">
+        <!-- Container -->
+        <div class="container">
+          <!-- Divider -->
+          <div class="divider is-centered"></div>
+          <!-- Title & subtitle -->
+          <h2 class="title is-light is-semibold has-text-centered is-spaced">
+            Data Visualization
+          </h2>
+          <h4 class="subtitle is-6 is-light has-text-centered is-compact">
+            Thank you for taking the time to complete this survey!
+          </h4>
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper is-large">
+            <div class="columns is-vcentered is-multiline is-centered">
+              <!-- The Pie Chart -->
+              <div class="column is-7 has-text-centered is-full-tablet">
+                <p class="has-text-light">
+                  Are you satisfied with our service?
+                </p>
+                <div class="divider is-long is-centered is-full-tablet"></div>
+                <div id="pieChart"></div>
+              </div>
+
+              <!-- The Bar Chart -->
+              <div class="column is-5 has-text-centered is-full-tablet">
+                <p class="has-text-light">How long have you been with us?</p>
+                <div class="divider is-long is-centered"></div>
+                <canvas id="barChart"></canvas>
+              </div>
+
+              <!-- Chart 3 -->
+              <div class="column is-full has-text-centered">
+                <p class="has-text-light">What is your role?</p>
+                <div class="divider is-long is-centered"></div>
+                <div id="treemap"></div>
+              </div>
+            </div>
+          </div>
+          <!-- /Content wrapper -->
+        </div>
+        <!-- /Container -->
+      </section>
+      <!-- /Data Visualization section -->
+
+      <!-- Footer -->
+      <footer class="krypton-footer">
+        <div class="container">
+          <!-- Logo -->
+          <div class="footer-logo">
+            <a href="#">
+              <img class="rotating" src="images/logo.svg" alt="" />
+              <div class="brand-name">NTT Cloud</div>
+              <div class="brand-subtitle">
+                Happiness is only real when shared
+              </div>
+            </a>
+          </div>
+
+          <!-- Copyright -->
+          <p class="k-copyright">© 2021-2099 | Nice!</p>
+          <br />
+          <!-- Made by -->
+          <p class="coded-by">
+            Made with
+            <a href="https://bulma.io/" target="_blank">Bulma</a>,
+            <a href="https://www.amcharts.com/" target="_blank">amCharts</a>,
+            <a href="https://www.chartjs.org/" target="_blank">Chart.js</a>, and
+            <a href="https://expressjs.com/" target="_blank">Express.js</a>
+          </p>
+        </div>
+
+        <!-- Absolute image -->
+        <img class="solar-system" src="images/solar.svg" alt="" />
+      </footer>
+      <!-- /Footer -->
+
+      <!-- Back To Top Button -->
+      <div
+        x-data="initBackToTop()"
+        x-on:scroll.window="scroll($event)"
+        @click="goTop($event)"
+        id="backtotop"
+      >
+        <a
+          href="javascript:"
+          :class="{
+        'visible': scrolled,
+        '': !scrolled
+    }"
+        ></a>
+      </div>
+      <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+      <script src="./javascripts/theme.js"></script>
+    </div>
+  </body>
+</html>

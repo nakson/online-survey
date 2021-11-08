@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <script src="../../javascripts/main.js?v6" async defer></script>
+
+    <!-- Loading charts -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="../../javascripts/chart_pie.js" async defer></script>
+  </head>
+  <body>
+    <h1>This is a testing page</h1>
+    <p>satisfaction: <%= title %></p>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <form
+            class="column is-one-third"
+            action="/surveys"
+            method="POST"
+            onsubmit="postData(this); return false;"
+          >
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  name="name"
+                  placeholder="name maximum 20 characters"
+                  value=""
+                />
+              </div>
+              <div id="name_info"></div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="label"
+                  >Are you satisfied with our service?<span
+                    style="color: #ff0000"
+                  >
+                    *</span
+                  ></label
+                >
+                <label class="radio">
+                  <input
+                    type="radio"
+                    name="satisfaction"
+                    value="Excellent"
+                    required
+                  />
+                  Excellent
+                </label>
+                <label class="radio">
+                  <input
+                    type="radio"
+                    name="satisfaction"
+                    value="Good"
+                    required
+                  />
+                  Good
+                </label>
+                <label class="radio">
+                  <input
+                    type="radio"
+                    name="satisfaction"
+                    value="Average"
+                    required
+                  />
+                  Average
+                </label>
+                <label class="radio">
+                  <input
+                    type="radio"
+                    name="satisfaction"
+                    value="Poor"
+                    required
+                  />
+                  Poor
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <button type="submit" class="button is-link" id="submitButton">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div id="pieChart"></div>
+  </body>
+</html>
