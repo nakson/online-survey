@@ -3,7 +3,7 @@ var router = express.Router();
 
 var loki = require("lokijs");
 
-var db = new loki("data.json", {
+var db = new loki("data.db", {
   autoload: true,
   autoloadCallback: databaseInitialize,
   autosave: true,
