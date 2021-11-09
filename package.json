@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "open-cli http://localhost:3000 && node ./bin/www"
+    "start-cli": "open-cli http://localhost:3000 && node ./bin/www",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "bulma-radio": "^1.1.1",
