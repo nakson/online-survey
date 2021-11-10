@@ -1,3 +1,6 @@
+//using Sokit.IO
+var socket = io();
+
 //button handler to submit the form
 async function postData(elem) {
   let response = await fetch(elem.action, {
@@ -19,6 +22,10 @@ async function postData(elem) {
       updateBarChart(currData.barChart);
       updateTreemap(currData.treemap);
       console.log("new fetched data: " + data);
+    });
+    socket.emit("toback", formData);
+    socket.on("tofront", function (msg) {
+      console.log("Got a socket message from server: " + msg);
     });
   } else {
     alert(response.status + " " + response.statusCode);

@@ -15,7 +15,8 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "lokijs": "^1.5.12",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "socket.io": "^4.3.2"
   },
   "devDependencies": {
     "open-cli": "^7.0.1"
